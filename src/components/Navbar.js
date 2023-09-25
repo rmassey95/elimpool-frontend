@@ -31,7 +31,7 @@ const Navbar = () => {
             credentials: "include",
         });
         setLoggedStatus();
-        navigate("/");
+        navigate("/login");
     };
 
     useEffect(() => {

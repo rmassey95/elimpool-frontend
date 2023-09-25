@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
     const [username, setUsername] = useState("");
@@ -20,8 +21,6 @@ const Signup = () => {
                 password: password,
             }),
         });
-
-        console.log(registerRes);
 
         if (registerRes.status === 200) {
             // success, go to login page
@@ -80,6 +79,9 @@ const Signup = () => {
                     Register
                 </button>
             </form>
+            <Link to="/" className="btn btn-secondary">
+                Back to home
+            </Link>
         </div>
     );
 };

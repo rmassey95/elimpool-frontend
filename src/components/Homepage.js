@@ -4,41 +4,48 @@ import { Link } from "react-router-dom";
 
 function Homepage() {
     const [users, setUsers] = useState([]);
-    const [userPick, setUserPick] = useState({});
+    const [userInfo, setUserInfo] = useState();
     const [loading, setLoading] = useState(true);
 
-    const getUsers = async () => {
+    const getUsersAndUserInfo = async () => {
         const getUsers = await fetch("http://localhost:5000/");
 
         const getUsersJson = await getUsers.json();
 
         setUsers(getUsersJson);
-    };
 
-    const getUserCurrentSelection = async () => {
-        const userSelection = await fetch(
-            "http://localhost:5000/user/current-selection",
-            {
-                method: "GET",
-                // credentials set to include allows cookies to be passed through request
-                credentials: "include",
-            }
-        );
+        const user = await fetch("http://localhost:5000/user", {
+            method: "GET",
+            // credentials set to include allows cookies to be passed through request
+            credentials: "include",
+        });
 
-        const userSelectionJSON = await userSelection.json();
+        const userJSON = await user.json();
+        if (user.status !== 401) {
+            userJSON.userAuthenticated = true;
+        }
 
-        setUserPick(userSelectionJSON);
+        setUserInfo(userJSON);
         setLoading(false);
     };
 
     useEffect(() => {
-        getUsers();
-        getUserCurrentSelection();
+        getUsersAndUserInfo();
     }, []);
 
     if (loading) {
         return <div className="loading"></div>;
     } else {
+        const weeks = [];
+
+        if (users[0].teamsPicked.length > 0) {
+            for (let index = 1; index <= users[0].teamsPicked.length; index++) {
+                weeks.push(<td key={index}>Week {index}</td>);
+            }
+        } else {
+            weeks.push(<td>No Picks To Display</td>);
+        }
+
         return (
             <>
                 <Navbar />
@@ -52,7 +59,7 @@ function Homepage() {
                                     scope="col"
                                     className="fs-2"
                                 >
-                                    Username
+                                    User
                                 </th>
                                 <th scope="col" className="fs-2">
                                     Picks
@@ -60,10 +67,21 @@ function Homepage() {
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td className="p-0"></td>
+                                {weeks}
+                            </tr>
                             {users.length > 0
                                 ? users.map((user) => {
                                       return (
-                                          <tr key={user._id}>
+                                          <tr
+                                              key={user._id}
+                                              className={
+                                                  !user.active
+                                                      ? "table-danger"
+                                                      : ""
+                                              }
+                                          >
                                               <td className="fs-4">
                                                   {user.username}
                                               </td>
@@ -85,22 +103,32 @@ function Homepage() {
                                 : null}
                         </tbody>
                     </table>
-                    {"currentSelection" in userPick ? <Link to="/picks">
+                    {"currentSelection" in userInfo && userInfo.active ? (
+                        <Link to="/picks">
                             <button
                                 type="button"
                                 className="btn btn-primary fs-3 my-4"
                             >
                                 Click here pick a team
                             </button>
-                        </Link> : ""}
-                    {"currentSelection" in userPick ? (
-                        userPick.currentSelection.length > 0 ? (
+                        </Link>
+                    ) : (
+                        userInfo.userAuthenticated && (
+                            <h2>You can no longer pick a team.</h2>
+                        )
+                    )}
+                    {"currentSelection" in userInfo ? (
+                        userInfo.currentSelection.length > 0 ? (
                             <h2>
                                 My Pick for this week:{" "}
-                                {userPick.currentSelection}
+                                {userInfo.currentSelection}
                             </h2>
                         ) : (
-                            <h2>You have not picked a team for this week</h2>
+                            userInfo.active && (
+                                <h2>
+                                    You have not picked a team for this week
+                                </h2>
+                            )
                         )
                     ) : (
                         <h2>Login to see your pick for this week</h2>
