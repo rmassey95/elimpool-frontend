@@ -38,18 +38,30 @@ function Homepage() {
     } else {
         const weeks = [];
 
-        if (users[0].teamsPicked.length > 0) {
-            for (let index = 1; index <= users[0].teamsPicked.length; index++) {
-                weeks.push(<td key={index}>Week {index}</td>);
+        if (users.length > 0) {
+            let maxWeeks = 0;
+            users.forEach((user) => {
+                if (user.teamsPicked.length > maxWeeks) {
+                    maxWeeks = user.teamsPicked.length;
+                }
+            });
+
+            if (maxWeeks > 0) {
+                for (
+                    let index = 1;
+                    index <= maxWeeks;
+                    index++
+                ) {
+                    weeks.push(<td key={index}>Week {index}</td>);
+                }
+            } else {
+                weeks.push(<td>No Picks To Display</td>);
             }
-        } else {
-            weeks.push(<td>No Picks To Display</td>);
         }
 
         return (
             <>
                 <Navbar />
-
                 <div className="container mt-4">
                     <table className="table table-striped">
                         <thead>

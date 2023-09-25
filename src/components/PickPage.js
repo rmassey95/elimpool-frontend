@@ -96,6 +96,9 @@ const PickPage = () => {
                                                     checked={
                                                         pick === game.awayTeam
                                                     }
+                                                    disabled={userInfo.teamsPicked.includes(
+                                                        game.awayTeam
+                                                    )}
                                                     onChange={handlePickChange}
                                                 />
                                                 <label
@@ -119,6 +122,9 @@ const PickPage = () => {
                                                     checked={
                                                         pick === game.homeTeam
                                                     }
+                                                    disabled={userInfo.teamsPicked.includes(
+                                                        game.homeTeam
+                                                    )}
                                                     onChange={handlePickChange}
                                                 />
                                                 <label
