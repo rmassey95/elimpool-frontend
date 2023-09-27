@@ -55,7 +55,7 @@ function Homepage({backendURL}) {
                     weeks.push(<td key={index}>Week {index}</td>);
                 }
             } else {
-                weeks.push(<td>No Picks To Display</td>);
+                weeks.push(<td key={1}>No Picks To Display</td>);
             }
         }
 

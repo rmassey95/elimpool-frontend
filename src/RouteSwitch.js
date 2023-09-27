@@ -5,7 +5,8 @@ import Signup from "./components/Signup";
 import PickPage from "./components/PickPage";
 
 const RouteSwitch = () => {
-    const backendURL = "https://elimpool.onrender.com/";
+    // const backendURL = "https://elimpool.onrender.com/";
+    const backendURL = "http://localhost:5000/";
 
     return (
         <BrowserRouter>
@@ -22,7 +23,10 @@ const RouteSwitch = () => {
                     path="/register"
                     element={<Signup backendURL={backendURL} />}
                 />
-                <Route path="/picks" element={<PickPage backendURL={backendURL} />} />
+                <Route
+                    path="/picks"
+                    element={<PickPage backendURL={backendURL} />}
+                />
             </Routes>
         </BrowserRouter>
     );
