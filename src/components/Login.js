@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({backendURL}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
@@ -12,7 +12,7 @@ const Login = () => {
         document.querySelector(".login-btn").disabled = true;
 
         // Send login POST req to backend
-        const loginRes = await fetch("http://localhost:5000/login", {
+        const loginRes = await fetch(`${backendURL}login`, {
             method: "POST",
             credentials: "include",
             headers: {

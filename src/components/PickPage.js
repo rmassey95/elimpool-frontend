@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const PickPage = () => {
+const PickPage = ({backendURL}) => {
     const [userInfo, setUserInfo] = useState();
     const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -11,7 +11,7 @@ const PickPage = () => {
     const navigate = useNavigate();
 
     const getUserInfo = async () => {
-        const getUserData = await fetch("http://localhost:5000/user", {
+        const getUserData = await fetch(`${backendURL}user`, {
             method: "GET",
             // credentials set to include allows cookies to be passed through request
             credentials: "include",
@@ -25,7 +25,7 @@ const PickPage = () => {
     };
 
     const getGames = async () => {
-        const gamesDataRes = await fetch("http://localhost:5000/games");
+        const gamesDataRes = await fetch(`${backendURL}games`);
 
         const gamesData = await gamesDataRes.json();
 
@@ -36,7 +36,7 @@ const PickPage = () => {
         e.preventDefault();
 
         const selectionRes = await fetch(
-            "http://localhost:5000/update-selection",
+            `${backendURL}update-selection`,
             {
                 method: "POST",
                 headers: {

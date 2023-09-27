@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({backendURL}) => {
     const [loggedStatus, setLoggedStatus] = useState();
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     const getUserStatus = async () => {
-        const loginRes = await fetch("http://localhost:5000/login/status", {
+        const loginRes = await fetch(`${backendURL}login/status`, {
             method: "GET",
             // credentials set to include allows cookies to be passed through request
             credentials: "include",
@@ -26,7 +26,7 @@ const Navbar = () => {
 
     // log user out
     const logout = async () => {
-        await fetch("http://localhost:5000/logout", {
+        await fetch(`${backendURL}logout`, {
             method: "POST",
             credentials: "include",
         });

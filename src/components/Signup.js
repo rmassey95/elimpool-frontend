@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const Signup = () => {
+const Signup = ({backendURL}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -11,7 +11,7 @@ const Signup = () => {
         e.preventDefault();
 
         // Send login POST req to backend
-        const registerRes = await fetch("http://localhost:5000/signup", {
+        const registerRes = await fetch(`${backendURL}signup`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

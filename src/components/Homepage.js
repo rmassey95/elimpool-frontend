@@ -2,19 +2,19 @@ import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
 
-function Homepage() {
+function Homepage({backendURL}) {
     const [users, setUsers] = useState([]);
     const [userInfo, setUserInfo] = useState();
     const [loading, setLoading] = useState(true);
 
     const getUsersAndUserInfo = async () => {
-        const getUsers = await fetch("http://localhost:5000/");
+        const getUsers = await fetch(backendURL);
 
         const getUsersJson = await getUsers.json();
 
         setUsers(getUsersJson);
 
-        const user = await fetch("http://localhost:5000/user", {
+        const user = await fetch(`${backendURL}user`, {
             method: "GET",
             // credentials set to include allows cookies to be passed through request
             credentials: "include",
@@ -61,7 +61,7 @@ function Homepage() {
 
         return (
             <>
-                <Navbar />
+                <Navbar backendURL={backendURL} />
                 <div className="container mt-4">
                     <table className="table table-striped">
                         <thead>
