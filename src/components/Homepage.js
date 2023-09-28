@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
 
-function Homepage({backendURL}) {
+function Homepage({ backendURL }) {
     const [users, setUsers] = useState([]);
     const [userInfo, setUserInfo] = useState();
     const [loading, setLoading] = useState(true);
@@ -47,15 +47,19 @@ function Homepage({backendURL}) {
             });
 
             if (maxWeeks > 0) {
-                for (
-                    let index = 1;
-                    index <= maxWeeks;
-                    index++
-                ) {
-                    weeks.push(<td key={index}>Week {index}</td>);
+                for (let index = 1; index <= maxWeeks; index++) {
+                    weeks.push(
+                        <td className="fw-semibold" key={index}>
+                            Week {index}
+                        </td>
+                    );
                 }
             } else {
-                weeks.push(<td key={1}>No Picks To Display</td>);
+                weeks.push(
+                    <td className="fw-semibold" key={1}>
+                        No Picks To Display
+                    </td>
+                );
             }
         }
 
@@ -83,6 +87,7 @@ function Homepage({backendURL}) {
                                 <td className="p-0"></td>
                                 {weeks}
                             </tr>
+
                             {users.length > 0
                                 ? users.map((user) => {
                                       return (
@@ -94,7 +99,7 @@ function Homepage({backendURL}) {
                                                       : ""
                                               }
                                           >
-                                              <td className="fs-4">
+                                              <td className="fs-4 align-middle">
                                                   {user.username}
                                               </td>
                                               {user.teamsPicked.map(
