@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const PickPage = ({backendURL}) => {
+const PickPage = ({ backendURL }) => {
     const [userInfo, setUserInfo] = useState();
     const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -35,19 +35,16 @@ const PickPage = ({backendURL}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const selectionRes = await fetch(
-            `${backendURL}update-selection`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    selection: pick,
-                }),
-                credentials: "include",
-            }
-        );
+        const selectionRes = await fetch(`${backendURL}update-selection`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                selection: pick,
+            }),
+            credentials: "include",
+        });
 
         if (selectionRes.status === 200) {
             // success
@@ -74,18 +71,21 @@ const PickPage = ({backendURL}) => {
             <div className="container">
                 <h1 className="mt-4 text-center">Picks Page</h1>
                 <h2>User: {userInfo.username}</h2>
-                <div className="row mt-4">
-                    <div className="col-8 border p-3">
+                <div className="row mt-3 p-2">
+                    <div className=" border py-3">
                         <form onSubmit={handleSubmit}>
                             {" "}
                             <h3 className="text-center mb-4">
                                 <u>Games</u>
                             </h3>
-                            <div className="container text-center">
+                            <div className="container text-center p-0">
                                 {games.map((game) => {
                                     return (
-                                        <div className="row" key={game._id}>
-                                            <div className="col">
+                                        <div
+                                            className="d-flex align-items-center"
+                                            key={game._id}
+                                        >
+                                            <div style={{ width: "45%" }}>
                                                 <input
                                                     type="radio"
                                                     className="btn-check"
@@ -102,16 +102,16 @@ const PickPage = ({backendURL}) => {
                                                     onChange={handlePickChange}
                                                 />
                                                 <label
-                                                    className="btn"
+                                                    className="btn team-text"
                                                     htmlFor={game.awayTeam}
                                                 >
                                                     {game.awayTeam}
                                                 </label>
                                             </div>
-                                            <div className="col">
-                                                <h4>AT</h4>
+                                            <div style={{ width: "10%" }}>
+                                                <h4 className="m-0">AT</h4>
                                             </div>
-                                            <div className="col">
+                                            <div style={{ width: "45%" }}>
                                                 <input
                                                     type="radio"
                                                     className="btn-check"
@@ -128,7 +128,7 @@ const PickPage = ({backendURL}) => {
                                                     onChange={handlePickChange}
                                                 />
                                                 <label
-                                                    className="btn"
+                                                    className="btn team-text"
                                                     htmlFor={game.homeTeam}
                                                 >
                                                     {game.homeTeam}
@@ -141,14 +141,14 @@ const PickPage = ({backendURL}) => {
                             <div className="text-center">
                                 <button
                                     type="submit"
-                                    className="btn btn-primary fs-4 mt-4"
+                                    className="btn btn-primary fs-5 mt-4"
                                 >
                                     Submit Pick
                                 </button>
                             </div>
                         </form>
                     </div>
-                    <div className="col-4 text-center">
+                    <div className="text-center mt-4">
                         <h3 className="mb-4">Teams previously picked</h3>
                         {userInfo.teamsPicked.map((team, indx) => {
                             return <h4 key={indx}>{team}</h4>;
@@ -156,7 +156,7 @@ const PickPage = ({backendURL}) => {
                     </div>
                 </div>
                 <div className="mt-4 text-center">
-                    <Link to="/" className="fs-4 btn btn-secondary">
+                    <Link to="/" className="fs-5 btn btn-secondary mb-4">
                         Back to Home
                     </Link>
                 </div>

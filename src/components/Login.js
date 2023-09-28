@@ -49,6 +49,7 @@ const Login = ({backendURL}) => {
 
     return (
         <div className="container mt-5">
+            <h1 className="mb-4">Login</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-outline mb-4">
                     <input

@@ -3,3 +3,9 @@
     height: 100vh;
     cursor: progress;
 }
+
+@media (max-width: 576px) {
+    .team-text{
+        font-size: small;
+    }
+}
