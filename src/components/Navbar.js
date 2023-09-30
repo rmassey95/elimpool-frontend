@@ -9,20 +9,22 @@ const Navbar = ({ backendURL }) => {
 
     const getUserStatus = async () => {
         const token = localStorage.getItem("token");
-        const loginRes = await fetch(`${backendURL}login/status`, {
-            method: "GET",
-            headers: {
-                "Content-type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        if (token) {
+            const loginRes = await fetch(`${backendURL}login/status`, {
+                method: "GET",
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-        if (loginRes.status === 200) {
-            // user logged in
-            const userRes = await loginRes.json();
-            setLoggedStatus(userRes);
-        } else {
-            setLoggedStatus();
+            if (loginRes.status === 200) {
+                // user logged in
+                const userRes = await loginRes.json();
+                setLoggedStatus(userRes);
+            } else {
+                setLoggedStatus();
+            }
         }
         setLoading(false);
     };
@@ -30,7 +32,7 @@ const Navbar = ({ backendURL }) => {
     // log user out
     const logout = async () => {
         localStorage.removeItem("token");
-                
+
         setLoggedStatus();
         navigate("/login");
     };
@@ -40,7 +42,7 @@ const Navbar = ({ backendURL }) => {
     }, []);
 
     if (loading) {
-        return <div></div>;
+        return <div>Loading...</div>;
     }
     if (!loggedStatus) {
         return (
