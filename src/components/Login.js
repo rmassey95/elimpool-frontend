@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
-const Login = ({backendURL}) => {
+const Login = ({ backendURL }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
@@ -14,7 +15,6 @@ const Login = ({backendURL}) => {
         // Send login POST req to backend
         const loginRes = await fetch(`${backendURL}login`, {
             method: "POST",
-            credentials: "include",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -26,6 +26,9 @@ const Login = ({backendURL}) => {
 
         if (loginRes.status === 200) {
             // success, go to main page
+
+            const loginResJson = await loginRes.json();
+            localStorage.setItem("token", loginResJson.token);
 
             document.querySelector(".login-btn").disabled = false;
             navigate("/");

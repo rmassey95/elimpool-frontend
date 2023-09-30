@@ -11,10 +11,13 @@ const PickPage = ({ backendURL }) => {
     const navigate = useNavigate();
 
     const getUserInfo = async () => {
+        const token = localStorage.getItem("token");
         const getUserData = await fetch(`${backendURL}user`, {
             method: "GET",
-            // credentials set to include allows cookies to be passed through request
-            credentials: "include",
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         });
 
         const userData = await getUserData.json();
@@ -34,16 +37,17 @@ const PickPage = ({ backendURL }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem("token");
 
         const selectionRes = await fetch(`${backendURL}update-selection`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
             body: JSON.stringify({
                 selection: pick,
             }),
-            credentials: "include",
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         });
 
         if (selectionRes.status === 200) {

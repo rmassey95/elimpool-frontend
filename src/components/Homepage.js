@@ -4,8 +4,15 @@ import { Link } from "react-router-dom";
 
 function Homepage({ backendURL }) {
     const [users, setUsers] = useState([]);
-    const [userInfo, setUserInfo] = useState();
+    const [userInfo, setUserInfo] = useState({});
     const [loading, setLoading] = useState(true);
+
+    const test = async () => {
+        await fetch(`${backendURL}test`, {
+            method: "GET",
+        });
+    };
+    // test();
 
     const getUsersAndUserInfo = async () => {
         const getUsers = await fetch(backendURL);
@@ -14,18 +21,22 @@ function Homepage({ backendURL }) {
 
         setUsers(getUsersJson);
 
-        const user = await fetch(`${backendURL}user`, {
-            method: "GET",
-            // credentials set to include allows cookies to be passed through request
-            credentials: "include",
-        });
+        const token = localStorage.getItem("token");
 
-        const userJSON = await user.json();
-        if (user.status !== 401) {
-            userJSON.userAuthenticated = true;
+        if (token) {
+            const user = await fetch(`${backendURL}user`, {
+                method: "GET",
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const userJSON = await user.json();
+
+            setUserInfo(userJSON);
         }
 
-        setUserInfo(userJSON);
         setLoading(false);
     };
 

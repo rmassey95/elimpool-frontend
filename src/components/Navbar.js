@@ -2,16 +2,19 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = ({backendURL}) => {
+const Navbar = ({ backendURL }) => {
     const [loggedStatus, setLoggedStatus] = useState();
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     const getUserStatus = async () => {
+        const token = localStorage.getItem("token");
         const loginRes = await fetch(`${backendURL}login/status`, {
             method: "GET",
-            // credentials set to include allows cookies to be passed through request
-            credentials: "include",
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         });
 
         if (loginRes.status === 200) {
@@ -26,10 +29,8 @@ const Navbar = ({backendURL}) => {
 
     // log user out
     const logout = async () => {
-        await fetch(`${backendURL}logout`, {
-            method: "POST",
-            credentials: "include",
-        });
+        localStorage.removeItem("token");
+                
         setLoggedStatus();
         navigate("/login");
     };
