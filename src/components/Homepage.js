@@ -150,12 +150,10 @@ function Homepage({ backendURL }) {
                                 Team selection is current closed
                             </h2>
                         )
+                    ) : !userInfo.active && "active" in userInfo ? (
+                        <h2 className="my-4">You can no longer pick a team.</h2>
                     ) : (
-                        !userInfo.active && (
-                            <h2 className="my-4">
-                                You can no longer pick a team.
-                            </h2>
-                        )
+                        <div></div>
                     )}
                     {"currentSelection" in userInfo ? (
                         userInfo.currentSelection.length > 0 ? (
