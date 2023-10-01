@@ -151,8 +151,10 @@ function Homepage({ backendURL }) {
                             </h2>
                         )
                     ) : (
-                        userInfo.userAuthenticated && (
-                            <h2>You can no longer pick a team.</h2>
+                        !userInfo.active && (
+                            <h2 className="my-4">
+                                You can no longer pick a team.
+                            </h2>
                         )
                     )}
                     {"currentSelection" in userInfo ? (
