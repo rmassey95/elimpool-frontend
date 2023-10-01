@@ -5,7 +5,7 @@ import Signup from "./components/Signup";
 import PickPage from "./components/PickPage";
 
 const RouteSwitch = () => {
-    const backendURL = "https://elimpool.onrender.com/";
+    const backendURL = "http://localhost:5000";
 
     return (
         <BrowserRouter>

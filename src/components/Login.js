@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 
 const Login = ({ backendURL }) => {
     const [username, setUsername] = useState("");
@@ -10,10 +9,11 @@ const Login = ({ backendURL }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // disable login button
         document.querySelector(".login-btn").disabled = true;
 
         // Send login POST req to backend
-        const loginRes = await fetch(`${backendURL}login`, {
+        const loginRes = await fetch(`${backendURL}/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -23,20 +23,21 @@ const Login = ({ backendURL }) => {
                 password: password,
             }),
         });
-
+        // success, go to main page
         if (loginRes.status === 200) {
-            // success, go to main page
-
             const loginResJson = await loginRes.json();
+            // create login token
             localStorage.setItem("token", loginResJson.token);
 
+            // re-enable login button
             document.querySelector(".login-btn").disabled = false;
             navigate("/");
             return;
         }
 
         // Fail to login, send error msg to user
-        if (loginRes.status === 401) {
+        if (loginRes.status === 400) {
+            // re-enable login button
             document.querySelector(".login-btn").disabled = false;
             setError(true);
         }

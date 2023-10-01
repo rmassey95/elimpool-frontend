@@ -7,24 +7,18 @@ function Homepage({ backendURL }) {
     const [userInfo, setUserInfo] = useState({});
     const [loading, setLoading] = useState(true);
 
-    const test = async () => {
-        await fetch(`${backendURL}test`, {
-            method: "GET",
-        });
-    };
-    // test();
-
     const getUsersAndUserInfo = async () => {
+        // get all user info from backend
         const getUsers = await fetch(backendURL);
 
         const getUsersJson = await getUsers.json();
 
-        setUsers(getUsersJson);
-
+        // get login token if any
         const token = localStorage.getItem("token");
 
         if (token) {
-            const user = await fetch(`${backendURL}user`, {
+            // get user info from backend
+            const user = await fetch(`${backendURL}/user`, {
                 method: "GET",
                 headers: {
                     "Content-type": "application/json",
@@ -37,6 +31,7 @@ function Homepage({ backendURL }) {
             setUserInfo(userJSON);
         }
 
+        setUsers(getUsersJson);
         setLoading(false);
     };
 
@@ -44,9 +39,18 @@ function Homepage({ backendURL }) {
         getUsersAndUserInfo();
     }, []);
 
+    const date = new Date();
+    const day = date.getDay();
+    const hour = date.getHours();
+
     if (loading) {
-        return <div className="loading"></div>;
+        return (
+            <div className="loading">
+                <div className="loading-spinner"></div>
+            </div>
+        );
     } else {
+        // used to store an array of table elements for each week that picks have been made
         const weeks = [];
 
         if (users.length > 0) {
@@ -132,14 +136,20 @@ function Homepage({ backendURL }) {
                         </tbody>
                     </table>
                     {"currentSelection" in userInfo && userInfo.active ? (
-                        <Link to="/picks">
-                            <button
-                                type="button"
-                                className="btn btn-primary fs-3 my-4"
-                            >
-                                Click here pick a team
-                            </button>
-                        </Link>
+                        day !== 6 || hour - 12 <= 0 ? (
+                            <Link to="/picks">
+                                <button
+                                    type="button"
+                                    className="btn btn-primary fs-3 my-4"
+                                >
+                                    Click here pick a team
+                                </button>
+                            </Link>
+                        ) : (
+                            <h2 className="my-4">
+                                Team selection is current closed
+                            </h2>
+                        )
                     ) : (
                         userInfo.userAuthenticated && (
                             <h2>You can no longer pick a team.</h2>

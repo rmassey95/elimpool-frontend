@@ -2,15 +2,17 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ backendURL }) => {
+const Navbar = ({backendURL}) => {
     const [loggedStatus, setLoggedStatus] = useState();
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     const getUserStatus = async () => {
+        // get login token
         const token = localStorage.getItem("token");
         if (token) {
-            const loginRes = await fetch(`${backendURL}login/status`, {
+            // get status of user, logged in or not
+            const loginStatusRes = await fetch(`${backendURL}/login/status`, {
                 method: "GET",
                 headers: {
                     "Content-type": "application/json",
@@ -18,10 +20,10 @@ const Navbar = ({ backendURL }) => {
                 },
             });
 
-            if (loginRes.status === 200) {
+            if (loginStatusRes.status === 200) {
                 // user logged in
-                const userRes = await loginRes.json();
-                setLoggedStatus(userRes);
+                const loginStatus = await loginStatusRes.json();
+                setLoggedStatus(loginStatus);
             } else {
                 setLoggedStatus();
             }
@@ -31,6 +33,7 @@ const Navbar = ({ backendURL }) => {
 
     // log user out
     const logout = async () => {
+        // remove token
         localStorage.removeItem("token");
 
         setLoggedStatus();
@@ -42,7 +45,7 @@ const Navbar = ({ backendURL }) => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div></div>;
     }
     if (!loggedStatus) {
         return (

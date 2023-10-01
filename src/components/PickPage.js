@@ -7,28 +7,34 @@ const PickPage = ({ backendURL }) => {
     const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(true);
     const [pick, setPick] = useState();
-
     const navigate = useNavigate();
 
+    // get login token
+    const token = localStorage.getItem("token");
+
     const getUserInfo = async () => {
-        const token = localStorage.getItem("token");
-        const getUserData = await fetch(`${backendURL}user`, {
-            method: "GET",
-            headers: {
-                "Content-type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        if (token) {
+            // get user info
+            const getUserData = await fetch(`${backendURL}/user`, {
+                method: "GET",
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-        const userData = await getUserData.json();
+            const userData = await getUserData.json();
 
-        setUserInfo(userData);
-        setPick(userData.currentSelection);
+            setUserInfo(userData);
+            setPick(userData.currentSelection);
+        }
+
         setLoading(false);
     };
 
     const getGames = async () => {
-        const gamesDataRes = await fetch(`${backendURL}games`);
+        // get nhl games for the Saturday
+        const gamesDataRes = await fetch(`${backendURL}/games`);
 
         const gamesData = await gamesDataRes.json();
 
@@ -37,30 +43,30 @@ const PickPage = ({ backendURL }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem("token");
 
-        const selectionRes = await fetch(`${backendURL}update-selection`, {
-            method: "POST",
-            body: JSON.stringify({
-                selection: pick,
-            }),
-            headers: {
-                "Content-type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        if (token) {
+            // update the current selection for the logged user
+            const selectionRes = await fetch(`${backendURL}/update-selection`, {
+                method: "POST",
+                body: JSON.stringify({
+                    selection: pick,
+                }),
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-        if (selectionRes.status === 200) {
-            // success
+            if (selectionRes.status === 200) {
+                // success
+                navigate("/");
+                return;
+            }
             navigate("/");
-            return;
         }
+        navigate("/");
 
         return;
-    };
-
-    const handlePickChange = (e) => {
-        setPick(e.target.value);
     };
 
     useEffect(() => {
@@ -68,8 +74,16 @@ const PickPage = ({ backendURL }) => {
         getGames();
     }, []);
 
+    const handlePickChange = (e) => {
+        setPick(e.target.value);
+    };
+
     if (loading) {
-        return <div className="loading"></div>;
+        return (
+            <div className="loading">
+                <div className="loading-spinner"></div>
+            </div>
+        );
     } else {
         return (
             <div className="container">
