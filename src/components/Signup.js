@@ -9,6 +9,8 @@ const Signup = ({ backendURL }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // disable signup button
+        document.querySelector(".signup-btn").disabled = true;
 
         // Send login POST req to backend
         const registerRes = await fetch(`${backendURL}/signup`, {
@@ -24,10 +26,12 @@ const Signup = ({ backendURL }) => {
 
         if (registerRes.status === 200) {
             // success, go to login page
+            // re-enable signup button
+            document.querySelector(".signup-btn").disabled = true;
             navigate("/login");
             return;
         }
-        
+
         return;
     };
 
@@ -71,7 +75,7 @@ const Signup = ({ backendURL }) => {
 
                 <button
                     type="submit"
-                    className="btn btn-primary btn-block login-btn mb-4"
+                    className="btn btn-primary btn-block login-btn mb-4 signup-btn"
                 >
                     Register
                 </button>
