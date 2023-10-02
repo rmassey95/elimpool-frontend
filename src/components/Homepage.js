@@ -80,7 +80,7 @@ function Homepage({ backendURL }) {
 
         return (
             <>
-                <Navbar backendURL={backendURL} />
+                <Navbar loggedStatus={userInfo._id ? true : false} />
                 <div className="container mt-4">
                     <table className="table table-striped">
                         <thead>
