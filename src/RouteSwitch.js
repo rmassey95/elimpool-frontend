@@ -5,7 +5,7 @@ import Signup from "./components/Signup";
 import PickPage from "./components/PickPage";
 
 const RouteSwitch = () => {
-    const backendURL = "https://elimpool.onrender.com";
+    const backendURL = "https://elimpool-production.up.railway.app";
 
     return (
         <BrowserRouter>
