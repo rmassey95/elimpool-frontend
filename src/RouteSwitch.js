@@ -7,6 +7,8 @@ import PickPage from "./components/PickPage";
 const RouteSwitch = () => {
     const backendURL = "https://elimpool-production.up.railway.app";
 
+    const test = "test";
+
     return (
         <BrowserRouter>
             <Routes>
