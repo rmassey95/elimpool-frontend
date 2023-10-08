@@ -136,21 +136,31 @@ function Homepage({ backendURL }) {
                         </tbody>
                     </table>
                     {"currentSelection" in userInfo && userInfo.active ? (
-                        day !== 6 || hour - 12 <= 0 ? (
-                            <Link to="/picks">
-                                <button
-                                    type="button"
-                                    className="btn btn-primary fs-3 my-4"
-                                >
-                                    Click here pick a team
-                                </button>
-                            </Link>
-                        ) : (
-                            <h2 className="my-4">
-                                Team selection is current closed
-                            </h2>
-                        )
-                    ) : !userInfo.active && "active" in userInfo ? (
+                        <Link to="/picks">
+                            <button
+                                type="button"
+                                className="btn btn-primary fs-3 my-4"
+                            >
+                                Click here pick a team
+                            </button>
+                        </Link>
+                    ) : // (
+                    //     day !== 6 || hour - 12 <= 0 ? (
+                    //         <Link to="/picks">
+                    //             <button
+                    //                 type="button"
+                    //                 className="btn btn-primary fs-3 my-4"
+                    //             >
+                    //                 Click here pick a team
+                    //             </button>
+                    //         </Link>
+                    //     ) : (
+                    //         <h2 className="my-4">
+                    //             Team selection is current closed
+                    //         </h2>
+                    //     )
+                    // )
+                    !userInfo.active && "active" in userInfo ? (
                         <h2 className="my-4">You can no longer pick a team.</h2>
                     ) : (
                         <div></div>
