@@ -78,6 +78,17 @@ function Homepage({ backendURL }) {
             }
         }
 
+        let displayPickChoice = true;
+        if (hour - 12 >= 0) {
+            if (day === 6) {
+                displayPickChoice = false;
+            }
+        } else {
+            if (day === 0) {
+                displayPickChoice = false;
+            }
+        }
+
         return (
             <>
                 <Navbar loggedStatus={userInfo._id ? true : false} />
@@ -136,7 +147,7 @@ function Homepage({ backendURL }) {
                         </tbody>
                     </table>
                     {"currentSelection" in userInfo && userInfo.active ? (
-                        day !== 6 || hour - 12 <= 0 ? (
+                        displayPickChoice ? (
                             <Link to="/picks">
                                 <button
                                     type="button"
@@ -147,7 +158,7 @@ function Homepage({ backendURL }) {
                             </Link>
                         ) : (
                             <h2 className="my-4">
-                                Team selection is current closed
+                                Team selection is currently closed
                             </h2>
                         )
                     ) : !userInfo.active && "active" in userInfo ? (
