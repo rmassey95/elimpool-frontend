@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Homepage from "./components/Homepage";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
@@ -26,6 +26,7 @@ const RouteSwitch = () => {
                     path="/picks"
                     element={<PickPage backendURL={backendURL} />}
                 />
+                <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </BrowserRouter>
     );
