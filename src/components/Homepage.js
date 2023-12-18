@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
+const fullTeamNames = require("../teams");
 
 function Homepage({ backendURL }) {
     const [users, setUsers] = useState([]);
@@ -137,7 +138,7 @@ function Homepage({ backendURL }) {
                                                               className="fs-4"
                                                               key={indx}
                                                           >
-                                                              {team}
+                                                              {fullTeamNames[team]}
                                                           </td>
                                                       );
                                                   }
@@ -172,7 +173,7 @@ function Homepage({ backendURL }) {
                         userInfo.currentSelection.length > 0 ? (
                             <h2>
                                 My Pick for this week:{" "}
-                                {userInfo.currentSelection}
+                                {fullTeamNames[userInfo.currentSelection]}
                             </h2>
                         ) : (
                             userInfo.active && (
