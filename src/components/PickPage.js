@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+const fullTeamNames = require("../../teams");
 
 const PickPage = ({ backendURL }) => {
     const [userInfo, setUserInfo] = useState();
@@ -123,7 +124,11 @@ const PickPage = ({ backendURL }) => {
                                                     className="btn team-text"
                                                     htmlFor={game.awayTeam}
                                                 >
-                                                    {game.awayTeam}
+                                                    {
+                                                        fullTeamNames[
+                                                            game.awayTeam
+                                                        ]
+                                                    }
                                                 </label>
                                             </div>
                                             <div style={{ width: "10%" }}>
@@ -149,7 +154,11 @@ const PickPage = ({ backendURL }) => {
                                                     className="btn team-text"
                                                     htmlFor={game.homeTeam}
                                                 >
-                                                    {game.homeTeam}
+                                                    {
+                                                        fullTeamNames[
+                                                            game.homeTeam
+                                                        ]
+                                                    }
                                                 </label>
                                             </div>
                                         </div>
