@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-const fullTeamNames = require("../../teams");
+const fullTeamNames = require("../teams");
 
 const PickPage = ({ backendURL }) => {
     const [userInfo, setUserInfo] = useState();
