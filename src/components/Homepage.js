@@ -26,9 +26,11 @@ function Homepage({ backendURL }) {
                 },
             });
 
-            const userJSON = await user.json();
+            if (user.status !== 401) {
+                const userJSON = await user.json();
 
-            setUserInfo(userJSON);
+                setUserInfo(userJSON);
+            }
         }
 
         setUsers(getUsersJson);
